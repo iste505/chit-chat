@@ -1,8 +1,11 @@
 import { Component } from "react";
 import React from "react";
 
-
 class Messages extends Component {
+
+
+
+
   render() {
     const { messages } = this.props;
     return (
@@ -20,16 +23,15 @@ class Messages extends Component {
       ? "Messages-message currentMember"
       : "Messages-message";
 
+
     return (
-      <li className={className}>
+      <li className={className} key={[member.id]}>
         <span
           className="avatar"
-          style={{ backgroundColor: member.color }}
-        />
+          style={{ backgroundColor: member.color || member.clientData.color }}
+          />
         <div className="Message-content">
-            <div className="username">
-            {member.username}
-            </div>
+          <div className="username">{member.username || member.clientData.username}</div>
           <div className="text">{text}</div>
         </div>
       </li>

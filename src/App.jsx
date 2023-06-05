@@ -12,6 +12,9 @@ function randomName() {
     "unaprijeđeni",
     "labavi",
     "crni",
+    "visoki",
+    "niski",
+    "žuti",
     "okomiti",
     "tanki",
     "debeli",
@@ -23,6 +26,13 @@ function randomName() {
     "vjetar",
     "štenac",
     "svjedok",
+    "brzac",
+    "val",
+    "racer",
+    "biciklist",
+    "ptič",
+    "sladoled",
+    "stolac",
     "trkac",
     "čudak",
     "vozač",
@@ -58,15 +68,17 @@ class App extends Component {
   // }
   // }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      messages: [],
-      member: {
-        username: randomName(),
-        color: randomColor(),
-      },
-    };
+state = {
+    messages: [],
+    member: {
+      username: randomName(),
+      color: randomColor(),
+    },
+  };
+
+  constructor() {
+    super();
+   
     this.drone = new window.Scaledrone("54dx9KixrbnG0nkz", {
       data: this.state.member,
     });
@@ -86,18 +98,7 @@ class App extends Component {
     });
   }
 
-  onSendMessage = (message) => {
-    const messages = this.state.messages;
-    messages.push({
-      text: message,
-      member: this.state.member,
-    });
-    this.setState({ messages: messages });
-    this.drone.publish({
-      room: "observable-room",
-      message,
-    });
-  };
+  
 
   render() {
     return (
@@ -107,14 +108,20 @@ class App extends Component {
             <h1>chitChat - easy chat App</h1>
           </div>
           <Messages
-            messages={this.state.messages}
-            currentMember={this.state.member}
+            messages={this.state.messages}       currentMember={this.state.member}
           />
           <Input onSendMessage={this.onSendMessage} />
         </div>
       </>
     );
   }
+
+  onSendMessage = (message) => {
+    this.drone.publish({
+      room: "observable-room",
+      message,
+    });
+  };
 }
 
 export default App;

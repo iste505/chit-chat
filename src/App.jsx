@@ -19,7 +19,7 @@ function randomName() {
     "tanki",
     "debeli",
     "smješni",
-    "zabavni"
+    "zabavni",
   ];
   const nouns = [
     "gonzales",
@@ -30,14 +30,14 @@ function randomName() {
     "val",
     "racer",
     "biciklist",
-    "ptič",
+    "ptić",
     "sladoled",
     "stolac",
     "trkac",
     "čudak",
     "vozač",
     "pas",
-    "tigar"
+    "tigar",
   ];
   const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
   const noun = nouns[Math.floor(Math.random() * nouns.length)];
@@ -48,27 +48,14 @@ function randomColor() {
   return "#" + Math.floor(Math.random() * 0xffffff).toString(16);
 }
 
-class App extends Component {
-  // constructor(props){
-  //   super(props);
-  //   this.state = {
-  //   messages: [
-  //     {
-  //       text: "Ovo je test poruka (hardkodirana)",
-  //       member: {
-  //         color: "blue",
-  //         username: "plaviorao",
-  //       },
-  //     },
-  //   ],
-  //   member: {
-  //     username: randomName(),
-  //     color: randomColor(),
-  //   },
-  // }
-  // }
+function randomKey() {
+  return (
+    Math.floor(Math.random() * Date.now()) + Math.ceil(Math.random() * 100000)
+  );
+}
 
-state = {
+class App extends Component {
+  state = {
     messages: [],
     member: {
       username: randomName(),
@@ -78,10 +65,12 @@ state = {
 
   constructor() {
     super();
-   
     this.drone = new window.Scaledrone("54dx9KixrbnG0nkz", {
       data: this.state.member,
     });
+  }
+
+  componentDidMount() {
     this.drone.on("open", (error) => {
       if (error) {
         return console.error(error);
@@ -93,12 +82,10 @@ state = {
     const room = this.drone.subscribe("observable-room");
     room.on("data", (data, member) => {
       const messages = this.state.messages;
-      messages.push({ member, text: data });
+      messages.push({ member, text: data, key: randomKey() });
       this.setState({ messages });
     });
   }
-
-  
 
   render() {
     return (
@@ -108,7 +95,8 @@ state = {
             <h1>chitChat - easy chat App</h1>
           </div>
           <Messages
-            messages={this.state.messages}       currentMember={this.state.member}
+            messages={this.state.messages}
+            currentMember={this.state.member}
           />
           <Input onSendMessage={this.onSendMessage} />
         </div>

@@ -12,22 +12,21 @@ class Messages extends Component {
   }
 
   renderMessage(message) {
-    const { member, text } = message;
+    const { member, text, key } = message;
     const { currentMember } = this.props;
     const messageFromMe = member.id === currentMember.id;
     const className = messageFromMe
       ? "Messages-message currentMember"
       : "Messages-message";
 
-
     return (
-      <li className={className} key={[member.id]}>
+      <li className={className} key={key}>
         <span
           className="avatar"
-          style={{ backgroundColor: member.color || member.clientData.color }}
-          />
+          style={{ backgroundColor: member.clientData.color }}
+        />
         <div className="Message-content">
-          <div className="username">{member.username || member.clientData.username}</div>
+          <div className="username">{member.clientData.username}</div>
           <div className="text">{text}</div>
         </div>
       </li>
